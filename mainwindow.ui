@@ -11,11 +11,40 @@
    </rect>
   </property>
   <property name="windowTitle">
-   <string>MainWindow</string>
+   <string>База данных &quot;Студенты&quot;</string>
   </property>
   <widget class="QWidget" name="centralWidget">
    <layout class="QGridLayout" name="gridLayout">
-    <item row="2" column="0" colspan="4">
+    <item row="0" column="5">
+     <widget class="QCheckBox" name="clearDataBaseCheckBox">
+      <property name="enabled">
+       <bool>true</bool>
+      </property>
+      <property name="mouseTracking">
+       <bool>true</bool>
+      </property>
+      <property name="acceptDrops">
+       <bool>false</bool>
+      </property>
+      <property name="layoutDirection">
+       <enum>Qt::RightToLeft</enum>
+      </property>
+      <property name="text">
+       <string>Очистить данные при закрытии</string>
+      </property>
+      <property name="checked">
+       <bool>false</bool>
+      </property>
+     </widget>
+    </item>
+    <item row="0" column="0">
+     <widget class="QPushButton" name="searchButton">
+      <property name="text">
+       <string>Поиск</string>
+      </property>
+     </widget>
+    </item>
+    <item row="2" column="0" colspan="6">
      <layout class="QGridLayout" name="gridLayout_3">
       <item row="1" column="0">
        <widget class="QTabWidget" name="tabWidget">
@@ -46,46 +75,10 @@
       </item>
      </layout>
     </item>
-    <item row="0" column="3">
-     <widget class="QCheckBox" name="clearDataBaseCheckBox">
-      <property name="enabled">
-       <bool>true</bool>
-      </property>
-      <property name="mouseTracking">
-       <bool>true</bool>
-      </property>
-      <property name="acceptDrops">
-       <bool>false</bool>
-      </property>
-      <property name="layoutDirection">
-       <enum>Qt::RightToLeft</enum>
-      </property>
-      <property name="text">
-       <string>Очистить данные при закрытии</string>
-      </property>
-      <property name="checked">
-       <bool>false</bool>
-      </property>
-     </widget>
-    </item>
-    <item row="0" column="0">
-     <widget class="QPushButton" name="searchButton">
-      <property name="text">
-       <string>Поиск</string>
-      </property>
-     </widget>
-    </item>
-    <item row="1" column="3">
+    <item row="1" column="5">
      <widget class="QPushButton" name="ExitButton">
       <property name="text">
        <string>Выход</string>
-      </property>
-     </widget>
-    </item>
-    <item row="1" column="0">
-     <widget class="QPushButton" name="delRecordButton">
-      <property name="text">
-       <string>Удалить записть</string>
       </property>
      </widget>
     </item>
@@ -96,7 +89,17 @@
       </property>
      </widget>
     </item>
-    <item row="1" column="2">
+    <item row="0" column="1" colspan="3">
+     <widget class="QLineEdit" name="searchLineEdit"/>
+    </item>
+    <item row="1" column="0">
+     <widget class="QPushButton" name="delRecordButton">
+      <property name="text">
+       <string>Удалить записть</string>
+      </property>
+     </widget>
+    </item>
+    <item row="1" column="3">
      <spacer name="horizontalSpacer">
       <property name="orientation">
        <enum>Qt::Horizontal</enum>
@@ -109,8 +112,12 @@
       </property>
      </spacer>
     </item>
-    <item row="0" column="1" colspan="2">
-     <widget class="QLineEdit" name="searchLineEdit"/>
+    <item row="1" column="2">
+     <widget class="QPushButton" name="pushButton">
+      <property name="text">
+       <string>Печать</string>
+      </property>
+     </widget>
     </item>
    </layout>
   </widget>

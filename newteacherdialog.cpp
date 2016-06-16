@@ -65,9 +65,18 @@ newTeacherDialog::newTeacherDialog(QWidget *parent) :
                       <<"Стажер"
                       <<"Старший научный сотрудник"
                       <<"Студент");
-    emit ui->facultyComboBox->currentIndexChanged(0);
-    emit ui->postComboBox->currentIndexChanged(0);
-//connect exit
+    this->ui->facultyComboBox->addItems(this->speciallytiz[0]);
+    this->ui->facultyComboBox->addItems(this->speciallytiz[1]);
+    this->ui->facultyComboBox->addItems(this->speciallytiz[2]);
+    this->ui->facultyComboBox->addItems(this->speciallytiz[3]);
+    this->ui->facultyComboBox->addItems(this->speciallytiz[4]);
+    this->ui->facultyComboBox->addItems(this->speciallytiz[5]);
+    this->ui->facultyComboBox->addItems(this->speciallytiz[6]);
+    this->ui->facultyComboBox->addItems(this->speciallytiz[7]);
+    this->ui->facultyComboBox->addItems(this->speciallytiz[8]);
+    this->ui->postComboBox->addItems(this->post[0]);
+    connect(this->ui->canselButton, SIGNAL(clicked(bool)),this,SLOT(close()));
+
 
 }
 

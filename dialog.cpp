@@ -65,7 +65,7 @@ Dialog::Dialog(QWidget *parent) :
 
     connect(this->ui->FacultyComboBox,SIGNAL(currentIndexChanged(int)), this, SLOT(onFacultChanged(int)));
     emit ui->FacultyComboBox->currentIndexChanged(0);
-
+// connect(this->ui->canselButton, SIGNAL(clicked(bool)),this,SLOT(hide()));
 }
 
 Dialog::~Dialog()

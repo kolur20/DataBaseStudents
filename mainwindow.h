@@ -6,6 +6,8 @@
 #include <QTableView>
 #include <QSqlRecord>
 #include <QMessageBox>
+#include <QPrinter>
+#include <QPrintDialog>
 #include "database.h"
 #include "dialog.h"
 #include "newteacherdialog.h"
@@ -25,6 +27,7 @@ public:
 private slots:
     void on_newRecordButton_clicked();
     void on_searchButton_clicked();
+    void on_pushButton_clicked();
 
 private:
     Ui::MainWindow *ui;
@@ -38,6 +41,7 @@ private:
                 TeachersTableHeaders;
 
     QMetaObject::Connection newRecordConnection,
+                            dialogRecordConnection,
                             delRecordConnection;
 
     Dialog *newStudent;

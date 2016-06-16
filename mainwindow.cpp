@@ -1,6 +1,7 @@
 #include "mainwindow.h"
 #include "ui_mainwindow.h"
 #include <QDebug>
+#include <QPainter>
 
 
 enum TABLE
@@ -44,14 +45,17 @@ MainWindow::MainWindow(QWidget *parent) :
 
         connect(this->ui->tabWidget,QTabWidget::currentChanged, [=](int index)
         {
+            disconnect(this->dialogRecordConnection);
             disconnect(this->newRecordConnection);
-            switch (index) {
+            disconnect(this->delRecordConnection);
+            switch (index)
+            {
             case TABLE::StudentsTableTab:
             {
                newRecordConnection = connect(ui->newRecordButton, QPushButton::clicked, [=]()
                 {
                     emit this->newStudent->showDialog(StudentsTableModel->record());
-                    newRecordConnection = connect(this->newStudent, Dialog::recordCompleted, [&](QSqlRecord rec)
+                    dialogRecordConnection = connect(this->newStudent, Dialog::recordCompleted, [&](QSqlRecord rec)
                     {
                         StudentsTableModel->insertRecord(-1,rec);
                         StudentsTableModel->select();
@@ -73,7 +77,7 @@ MainWindow::MainWindow(QWidget *parent) :
                 newRecordConnection = connect(ui->newRecordButton, QPushButton::clicked, [=]()
                  {
                      emit this->newTeacher->showDialog(TeachersTableModel->record());
-                     newRecordConnection = connect(this->newTeacher, newTeacherDialog::recordCompleted, [&](QSqlRecord rec)
+                     dialogRecordConnection = connect(this->newTeacher, newTeacherDialog::recordCompleted, [&](QSqlRecord rec)
                      {
                          TeachersTableModel->insertRecord(-1,rec);
                          TeachersTableModel->select();
@@ -165,7 +169,6 @@ void MainWindow::on_searchButton_clicked()
     case TABLE::StudentsTableTab:
     {
         int row_count = StudentsTableModel->rowCount();
-        QModelIndex founded_index;
         for( int i = 0; i < row_count; i++ )
         {
             QModelIndex name = StudentsTableModel->index(i, 1);
@@ -191,12 +194,64 @@ void MainWindow::on_searchButton_clicked()
 
         break;
 
-//    case TABLE::TeachersTableTab:
-//    {
-
-//    }
-//        break;
+    case TABLE::TeachersTableTab:
+    {
+        int row_count = TeachersTableModel->rowCount();
+        for( int i = 0; i < row_count; i++ )
+        {
+            QModelIndex name = TeachersTableModel->index(i, 1);
+            if(TeachersTableModel->data(name).toString() == search)
+            {
+                ui->TeachersTableView->setFocus();
+                ui->TeachersTableView->setCurrentIndex(name);
+                return;
+            }
+        }
+        QMessageBox msg(QMessageBox::Information,
+                        "Поиск",
+                        QString("Поиск %1 не дал результатов").arg(search),
+                        QMessageBox::Ok);
+        msg.exec();
+    }
+        break;
     default:
         break;
     }
+}
+void MainWindow::on_pushButton_clicked()
+{
+    int current_tab = this->ui->tabWidget->currentIndex();
+
+    QPrinter printer;
+    QTableView *myWidget;
+
+    switch(current_tab)
+    {
+    case TABLE::StudentsTableTab:
+        myWidget = this->ui->StudentsTableView;
+        break;
+
+    case TABLE::TeachersTableTab:
+        myWidget = this->ui->TeachersTableView;
+        break;
+    default:
+        return;
+    }
+
+    QPixmap pix = myWidget->grab();
+    QPainter painter;
+    printer.setResolution(QPrinter::HighResolution);
+
+    printer.setPageMargins (15,15,15,15,QPrinter::Millimeter);
+    painter.begin(&printer);
+    double xscale = printer.pageRect().width()/double(myWidget->width() + 50);
+    double yscale = printer.pageRect().height()/double(myWidget->height() + 50);
+    double scale = qMin(xscale, yscale);
+    painter.scale(scale, scale);
+
+    painter.drawPixmap(0, 0, pix);
+    painter.end();
+
+    myWidget->render(&painter);
+
 }
